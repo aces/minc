@@ -1,5 +1,9 @@
 New in Release 2.1.02
 ---------------------
+* volume_io/Volumes/volumes.c: change data type of get_volume_total_n_voxels
+  to size_t for very large volumes (e.g. BigBrain at 100 microns) (retroactive)
+* mincpik defined(@array) in PERL (retroactive)
+* merged mincmorph-1.4 into minc/progs/ (retroactive)
 * resample_volumes.c: use max <= min to set range per slice
 * Modified Otsu threshold for biModalT to avoid division by zero
   in sigma_b_k expression when omega_k = 0 or sum.
