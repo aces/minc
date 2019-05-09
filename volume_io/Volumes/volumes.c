@@ -562,10 +562,10 @@ VIOAPI  void  set_volume_sizes(
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
 
-VIOAPI  unsigned int  get_volume_total_n_voxels(
+VIOAPI  size_t get_volume_total_n_voxels(
     Volume    volume )
 {
-    unsigned  int  n;
+    size_t    n;
     int       i, sizes[MAX_DIMENSIONS];
 
     n = 1;
@@ -573,7 +573,7 @@ VIOAPI  unsigned int  get_volume_total_n_voxels(
     get_volume_sizes( volume, sizes );
 
     for_less( i, 0, get_volume_n_dimensions( volume ) )
-        n *= (unsigned int) sizes[i];
+        n *= (size_t) sizes[i];
 
     return( n );
 }
@@ -2418,7 +2418,8 @@ VIOAPI  Volume  copy_volume(
 {
     Volume   copy;
     void     *src, *dest;
-    int      d, n_voxels, sizes[MAX_DIMENSIONS];
+    int      d, sizes[MAX_DIMENSIONS];
+    size_t   n_voxels;
 
     if( volume->is_cached_volume )
     {
@@ -2438,7 +2439,7 @@ VIOAPI  Volume  copy_volume(
     get_volume_sizes( volume, sizes );
     n_voxels = 1;
     for_less( d, 0, get_volume_n_dimensions(volume) )
-        n_voxels *= sizes[d];
+        n_voxels *= (size_t)sizes[d];
 
     /* --- get a pointer to the beginning of the voxels */
 

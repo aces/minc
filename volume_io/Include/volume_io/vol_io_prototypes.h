@@ -840,7 +840,7 @@ VIOAPI  void  set_volume_sizes(
     VIO_Volume   volume,
     int          sizes[] );
 
-VIOAPI  unsigned int  get_volume_total_n_voxels(
+VIOAPI  size_t get_volume_total_n_voxels(
     VIO_Volume    volume );
 
 VIOAPI  void  compute_world_transform(
