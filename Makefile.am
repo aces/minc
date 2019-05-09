@@ -19,7 +19,7 @@ progs/minchistory/minchistory.man1: progs/minchistory/minchistory
 
 # Add these to the include searches.
 #
-INCLUDES = \
+AM_CPPFLAGS = \
 	-I$(top_srcdir)/libsrc \
 	-I$(top_builddir)/volume_io/Include \
 	-I$(top_srcdir)/volume_io/Include \
@@ -27,7 +27,7 @@ INCLUDES = \
 	-I$(top_srcdir)/conversion/Acr_nema
 
 if MINC2
-INCLUDES += -I$(top_srcdir)/libsrc2
+AM_CPPFLAGS += -I$(top_srcdir)/libsrc2
 endif
 
 # Headers which must be installed.
@@ -92,6 +92,8 @@ noinst_HEADERS = \
 	progs/mincgen/genlib.h \
 	progs/mincgen/ncgen.h \
 	progs/mincgen/ncgentab.h \
+	progs/mincmorph/kernel_io.h \
+	progs/mincmorph/kernel_ops.h \
 	conversion/ecattominc/ecat_file.h \
 	conversion/ecattominc/machine_indep.h \
 	conversion/ecattominc/ecat_header_definition.h \
@@ -199,6 +201,7 @@ bin_PROGRAMS = \
 	mincmakescalar \
 	mincmakevector \
 	mincmath \
+	mincmorph \
 	mincresample \
 	mincreshape \
 	mincstats \
@@ -319,6 +322,10 @@ mincmakescalar_SOURCES = progs/mincmakescalar/mincmakescalar.c
 mincmakevector_SOURCES = progs/mincmakevector/mincmakevector.c
 
 mincmath_SOURCES = progs/mincmath/mincmath.c
+
+mincmorph_SOURCES = progs/mincmorph/kernel_io.c \
+                    progs/mincmorph/kernel_ops.c \
+                    progs/mincmorph/mincmorph.c
 
 mincresample_SOURCES = \
 	progs/mincresample/mincresample.c \

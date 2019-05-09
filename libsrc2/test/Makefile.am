@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/libsrc2
+AM_CPPFLAGS = -I$(top_srcdir)/libsrc2
 
 script_tests = \
 	testminctools.sh

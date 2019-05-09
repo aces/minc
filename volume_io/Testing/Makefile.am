@@ -1,6 +1,6 @@
 # Programming examples and test programs.
 
-INCLUDES = \
+AM_CPPFLAGS = \
         -I$(top_srcdir)/libsrc \
         -I$(top_builddir)/volume_io/Include \
         -I$(top_srcdir)/volume_io/Include \
