@@ -10,7 +10,6 @@
 @CALLS      : 
 @CREATED    : February 8, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: mincresample.c,v $
  * Revision 6.23  2008/01/17 02:33:02  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in
@@ -1124,10 +1123,12 @@ static void transform_volume_def(Transform_Info *transform_info,
    if ((transform_info != NULL) && (transform_info->file_name != NULL)) {
 
       /* Set up origin vector */
-      for (idim=0; idim < WORLD_NDIMS; idim++)
-         for (jdim=0; jdim < WORLD_NDIMS; jdim++)
+      for (idim=0; idim < WORLD_NDIMS; idim++) {
+         for (jdim=0; jdim < WORLD_NDIMS; jdim++) {
             origin[idim] += input_volume_def->start[jdim] *
                input_volume_def->dircos[jdim][idim];
+         }
+      }
 
       /* Transform origin vector */
       DO_INVERSE_TRANSFORM(transformed_origin, 
