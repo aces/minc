@@ -260,10 +260,7 @@ EXTRA_DIST = \
 	Makefile.msvc-win32 \
 	conversion/Acr_nema/dicom.txt \
 	INSTALL.minc \
-	CMakeLists.txt \
 	config.h.cmake \
-	progs/CMakeLists.txt \
-	conversion/CMakeLists.txt \
 	cmake-modules/FindBISON.cmake \
 	cmake-modules/FindFLEX.cmake \
 	cmake-modules/FindHDF5.cmake \

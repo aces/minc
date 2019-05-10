@@ -1,14 +1,22 @@
+New in Release 2.1.04
+---------------------
+* volume_io/Volumes/volumes.c: change data type of get_volume_total_n_voxels 
+  to size_t for very large volumes (e.g. BigBrain at 100 microns)
+* make VIO_Point_coord_type to be VIO_Real (double) instead of float. This
+  affects some vector operations and prevents a bad cast to float when using
+  the macro fill_Point on doubles. 
+* mincpik defined(@array) in PERL
+* merged mincmorph-1.4 into minc/progs/ (need to do it in 2.1.02 too for CIVET-2.1.0)
+
 New in Release 2.1.03
 ---------------------
 * Imported changes to libminc from minc-toolkit libminc/libsrc,
   libminc/libsrc2, libminc/nifti.
 
+--- should add volume_io too!!!
+
 New in Release 2.1.02
 ---------------------
-* volume_io/Volumes/volumes.c: change data type of get_volume_total_n_voxels
-  to size_t for very large volumes (e.g. BigBrain at 100 microns) (retroactive)
-* mincpik defined(@array) in PERL (retroactive)
-* merged mincmorph-1.4 into minc/progs/ (retroactive)
 * resample_volumes.c: use max <= min to set range per slice
 * Modified Otsu threshold for biModalT to avoid division by zero
   in sigma_b_k expression when omega_k = 0 or sum.

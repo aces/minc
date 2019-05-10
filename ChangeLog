@@ -1,8 +1,17 @@
-2019-05-06 Claude Lepage <claude@bic.mni.mcgill.ca>
+2019-05-03 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * merged mincmorph-1.4 into minc/progs/
+
+2019-04-04 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * mincpik defined(@array) in PERL
+
+2019-03-14 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * make VIO_Point_coord_type to be VIO_Real (double) instead of float. This
+     affects some vector operations and prevents a bad cast to float when using
+     the macro fill_Point on doubles. 
+
+2018-10-29 Claude Lepage <claude@bic.mni.mcgill.ca>
    * volume_io/Volumes/volumes.c: change data type of get_volume_total_n_voxels
-     to size_t for very large volumes (e.g. BigBrain at 100 microns) (retroactive)
-   * mincpik defined(@array) in PERL (retroactive)
-   * merged mincmorph-1.4 into minc/progs/ (retroactive)
+     to size_t for very large volumes (e.g. BigBrain at 100 microns)
 
 2018-02-22 Claude Lepage <claude@bic.mni.mcgill.ca>
    * Imported changes to libminc from minc-toolkit libminc/libsrc,
