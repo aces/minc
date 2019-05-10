@@ -6,7 +6,6 @@
    @CALLS      : 
    @CREATED    : January 28, 1997 (Peter Neelin)
    @MODIFIED   : 
-   * $Log: dicom_read.c,v $
    * Revision 1.29  2010-11-23 23:30:50  claude
    * dcm2mnc: fixed seg fault bug (Claude) and added b-matrix (Ilana)
    *

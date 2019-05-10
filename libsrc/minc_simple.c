@@ -4,7 +4,6 @@
 @METHOD     : Routines included in this file :
 @CREATED    : August 20, 2004. (Bert Vincent, Montreal Neurological Institute)
 @MODIFIED   : 
- * $Log: minc_simple.c,v $
  * Revision 6.6  2008-01-11 07:17:07  stever
  * Remove unused variables.
  *

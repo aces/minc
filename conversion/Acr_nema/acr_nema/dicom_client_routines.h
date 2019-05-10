@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : July 9, 1997 (Peter Neelin)
 @MODIFIED   : 
- * $Log: dicom_client_routines.h,v $
  * Revision 6.5  1999/10/29 17:51:50  neelin
  * Fixed Log keyword
  *

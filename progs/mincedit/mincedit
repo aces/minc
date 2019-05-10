@@ -5,7 +5,6 @@
 # Usage: mincedit <minc file> [<editor>]
 #
 # Modifications: 
-#   $Log: mincedit,v $
 #   Revision 6.9  2008/06/18 03:55:25  stever
 #   Remove illegitimate escape sequences (\n) from echo statements.
 #   See Debian bug 486048 for details.

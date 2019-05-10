@@ -18,7 +18,6 @@
                  MI acquisition variable
 @CREATED    : July 24, 1992. (Peter Neelin, Montreal Neurological Institute)
 @MODIFIED   : 
- * $Log: minc.h,v $
  * Revision 6.21  2010-05-19 03:44:25  stever
  * Move definition of MNCAPI ahead of #include "minc_compat.h"; fix-up for
  * previous check-in.
@@ -152,7 +151,6 @@
               make no representations about the suitability of this
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
-@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc.h,v 6.21 2010-05-19 03:44:25 stever Exp $ MINC (MNI)
 ---------------------------------------------------------------------------- */
 
 #ifndef MNCAPI

@@ -12,7 +12,6 @@
 @CALLS      : 
 @CREATED    : June 18, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: strdup.c,v $
  * Revision 6.1  1999/10/19 14:45:11  neelin
  * Fixed Log subsitutions for CVS
  *

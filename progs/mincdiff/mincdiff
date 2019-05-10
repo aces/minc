@@ -5,7 +5,6 @@
 # Usage: mincdiff [-l] [diff options] <file1.mnc> <file2.mnc>
 #
 # Modifications: 
-#   $Log: mincdiff,v $
 #   Revision 6.3  2000/09/12 15:22:06  neelin
 #   Removed copyright notice.
 #

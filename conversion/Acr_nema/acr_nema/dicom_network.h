@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : February 10, 1997 (Peter Neelin)
 @MODIFIED   : 
- * $Log: dicom_network.h,v $
  * Revision 6.6  2001/03/19 18:30:33  neelin
  * Added function to set implementation uid and changed name of function
  * that gets it.

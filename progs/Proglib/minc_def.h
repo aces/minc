@@ -5,7 +5,6 @@
 @CALLS      : 
 @CREATED    : July 7, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: minc_def.h,v $
  * Revision 6.2  1999/10/19 15:57:17  neelin
  * Fixed log message containing log substitution
  *

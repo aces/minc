@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : Jul 2006 (Leila Baghdadi)
 @MODIFIED   : 
- * $Log: vff2mnc.c,v $
  * Revision 1.7  2010-03-27 15:10:59  rotor
  *  * removed default volume_io caching
  *  * fixed a few warnings in vff2mnc (fgets)

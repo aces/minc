@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : February 1, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: time_stamp.h,v $
  * Revision 6.2  2004-10-15 13:46:51  bert
  * Minor changes for Windows compatibility
  *

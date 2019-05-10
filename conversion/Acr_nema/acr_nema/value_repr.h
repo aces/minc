@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : January 31, 1997 (Peter Neelin)
 @MODIFIED   : 
- * $Log: value_repr.h,v $
  * Revision 6.3  2005/03/04 00:08:08  bert
  * Cleanup headers, mostly by getting rid of the infernal 'public' and using extern instead
  *

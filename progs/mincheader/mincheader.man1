@@ -8,9 +8,8 @@
 .\" software for any purpose.  It is provided "as is" without
 .\" express or implied warranty.
 .\"
-.\" $Header: /private-cvsroot/minc/progs/mincheader/mincheader.man1,v 6.1 2004-05-20 21:52:08 bert Exp $
 .\"
-.TH MINCHEADER 1 "$Date: 2004-05-20 21:52:08 $" "" "MINC User's Guide"
+.TH MINCHEADER 1 "$Date: 2019/03/14 18:54:25 $" "" "MINC User's Guide"
 
 .SH NAME
 mincheader - prints out header information for a minc file

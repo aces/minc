@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : November 7, 1995 (Peter Neelin)
 @MODIFIED   : 
- * $Log: convert_origin_to_start.h,v $
  * Revision 6.1  1999/10/19 14:45:13  neelin
  * Fixed Log subsitutions for CVS
  *

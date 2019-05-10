@@ -18,7 +18,6 @@ McGill University
 
 This is predominately a rehash of mincmath by Peter Neelin
 
- * $Log: minccalc.c,v $
  * Revision 1.19  2010-03-27 15:24:03  rotor
  *  * added outfile checks (with clobber) in minccalc
  *

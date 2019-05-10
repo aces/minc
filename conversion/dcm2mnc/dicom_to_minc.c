@@ -7,7 +7,6 @@
    @CALLS      : 
    @CREATED    : January 28, 1997 (Peter Neelin)
    @MODIFIED   : 
-   * $Log: dicom_to_minc.c,v $
    * Revision 1.30  2010-11-23 23:30:50  claude
    * dcm2mnc: fixed seg fault bug (Claude) and added b-matrix (Ilana)
    *

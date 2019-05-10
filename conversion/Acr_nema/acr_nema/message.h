@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : November 16, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: message.h,v $
  * Revision 6.1  1999/10/29 17:51:54  neelin
  * Fixed Log keyword
  *

@@ -6,7 +6,6 @@
 @CALLS      : 
 @CREATED    : February 8, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: mincresample.h,v $
  * Revision 6.8  2008/01/13 09:38:54  stever
  * Avoid compiler warnings about functions and variables that are defined
  * but not used.  Remove some such functions and variables,

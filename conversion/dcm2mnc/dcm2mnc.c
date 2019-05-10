@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : June 2001 (Rick Hoge)
 @MODIFIED   : 
- * $Log: dcm2mnc.c,v $
  * Revision 1.24  2010-11-23 23:30:50  claude
  * dcm2mnc: fixed seg fault bug (Claude) and added b-matrix (Ilana)
  *

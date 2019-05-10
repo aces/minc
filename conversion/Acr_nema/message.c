@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : November 16, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: message.c,v $
  * Revision 6.8  2008/08/12 05:00:22  rotor
  *  * large number of changes from Claude (64 bit and updates)
  *

@@ -4,7 +4,6 @@
  * Centre for Magnetic Resonance
  * University of Queensland, Australia
  *
- * $Log: mincstats.c,v $
  * Revision 1.24  2007/12/11 12:43:01  rotor
  *  * added static to all global variables in main programs to avoid linking
  *       problems with libraries (compress in mincconvert and libz for example)

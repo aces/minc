@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : January 10, 1994 (Peter Neelin)
 @MODIFIED   : 
- * $Log: voxel_loop.h,v $
  * Revision 6.4  2005-08-26 21:04:58  bert
  * Use #if rather than #ifdef with MINC2 symbol
  *

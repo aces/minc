@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : November 9, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: file_io.c,v $
  * Revision 6.9  2008/01/13 09:38:54  stever
  * Avoid compiler warnings about functions and variables that are defined
  * but not used.  Remove some such functions and variables,

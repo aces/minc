@@ -12,7 +12,6 @@
 @CALLS      : 
 @CREATED    : August 28, 1992 (Peter Neelin)
 @MODIFIED   : 
- * $Log: minc_basic.h,v $
  * Revision 6.8  2010-03-27 15:09:28  rotor
  *  * back to 1000000
  *
@@ -76,7 +75,6 @@
               make no representations about the suitability of this
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
-@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_basic.h,v 6.8 2010-03-27 15:09:28 rotor Exp $ MINC (MNI)
 ---------------------------------------------------------------------------- */
 
 #include <minc.h>

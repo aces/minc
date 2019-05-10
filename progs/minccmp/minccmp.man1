@@ -8,7 +8,7 @@
 .\" express or implied warranty.
 .\"
 .\"
-.TH MINCCMP 1 "$Date: 2010-03-02 12:12:20 $" "" "MINC User's Guide"
+.TH MINCCMP 1 "$Date: 2019/03/14 17:01:43 $" "" "MINC User's Guide"
 
 .SH NAME
 minccmp - compare one or more minc file using comparator operators

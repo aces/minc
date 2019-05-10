@@ -9,7 +9,6 @@
 @CALLS      : 
 @CREATED    : January 3, 1996 (Peter Neelin)
 @MODIFIED   : 
- * $Log: ecattominc.c,v $
  * Revision 6.7  2008/04/11 05:16:02  rotor
  *  * added config.h to ecattominc
  *  * removed minc_globdef.h from Makefile.am

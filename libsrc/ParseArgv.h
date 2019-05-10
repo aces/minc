@@ -15,7 +15,6 @@
  *
  * This file has been modified to be used only for argv parsing without
  * reference to tk, tcl or X11. Base on tk.h from tk2.3
- * $Header: /private-cvsroot/minc/libsrc/ParseArgv.h,v 6.6 2004-10-15 13:44:52 bert Exp $ SPRITE (Berkeley)
  */
 
 #ifdef HAVE_MINC1

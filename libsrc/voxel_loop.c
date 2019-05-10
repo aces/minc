@@ -6,7 +6,6 @@
 @GLOBALS    : 
 @CREATED    : January 10, 1994 (Peter Neelin)
 @MODIFIED   : 
- * $Log: voxel_loop.c,v $
  * Revision 6.14  2010-03-02 23:24:40  rotor
  *  * libsrc/hdf_convenience.c: removed spurious debug output
  *  * libsrc/minc.h: replaced MAX_NC_OPEN with 32

@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : January 4, 1996 (Peter Neelin)
 @MODIFIED   : 
- * $Log: ecat_file.h,v $
  * Revision 6.2  2005/01/19 19:46:01  bert
  * Changes from Anthonin Reilhac
  *

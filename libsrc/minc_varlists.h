@@ -5,7 +5,6 @@
 @METHOD     : Note that lists should be NULL terminated.
 @CREATED    : Peter Neelin (August 7, 1992)
 @MODIFIED   : 
- * $Log: minc_varlists.h,v $
  * Revision 6.1  1999-10-19 14:45:11  neelin
  * Fixed Log subsitutions for CVS
  *
@@ -40,7 +39,6 @@
               make no representations about the suitability of this
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
-@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_varlists.h,v 6.1 1999-10-19 14:45:11 neelin Exp $ MINC (MNI)
 ---------------------------------------------------------------------------- */
 
 /* Variables containing list of standard dimension names and variable names */

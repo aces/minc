@@ -7,6 +7,9 @@
 @CREATED    : August 7, 1992 (Peter Neelin)
 @MODIFIED   :
  * $Log: minc2_error.c,v $
+ * Revision 1.1  2019/04/04 22:22:27  clepage
+ * mincpik perl syntax for array
+ *
  * Revision 6.8  2009-01-20 11:58:13  rotor
  *  * CMakeLists.txt: updated version
  *  * Updated Changelog to include releases

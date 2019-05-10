@@ -6,7 +6,6 @@
 @CREATED    : January 28, 1997 (Peter Neelin)
 @MODIFIED   : 
 
- * $Log: dcm2mnc.h,v $
  * Revision 1.15  2007/05/30 15:17:34  ilana
  * fix so that diffusion images all written into 1 4d volume, gradient directions and bvalues are written to mincheader, some fixes for TIM diffusion images
  *

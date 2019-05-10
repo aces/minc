@@ -6,7 +6,6 @@
 @CALLS      : 
 @CREATED    : August 7, 1992 (Peter Neelin)
 @MODIFIED   : 
- * $Log: minc_error.c,v $
  * Revision 6.8  2009-01-20 11:58:13  rotor
  *  * CMakeLists.txt: updated version
  *  * Updated Changelog to include releases

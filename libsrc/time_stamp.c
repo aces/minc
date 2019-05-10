@@ -4,7 +4,6 @@
 @METHOD     : 
 @CREATED    : February 1, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: time_stamp.c,v $
  * Revision 6.4  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in

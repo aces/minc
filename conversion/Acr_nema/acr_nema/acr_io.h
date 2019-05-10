@@ -5,7 +5,6 @@
 @GLOBALS    : 
 @CREATED    : November 10, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: acr_io.h,v $
  * Revision 6.4  2008/08/12 05:00:23  rotor
  *  * large number of changes from Claude (64 bit and updates)
  *

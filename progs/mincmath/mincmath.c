@@ -9,7 +9,6 @@
 @CALLS      : 
 @CREATED    : April 28, 1995 (Peter Neelin)
 @MODIFIED   : 
- * $Log: mincmath.c,v $
  * Revision 6.15  2009/01/20 11:58:13  rotor
  *  * CMakeLists.txt: updated version
  *  * Updated Changelog to include releases

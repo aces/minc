@@ -12,7 +12,6 @@
 @CALLS      : 
 @CREATED    : August 28, 1992 (Peter Neelin)
 @MODIFIED   : 
- * $Log: minc_routines.h,v $
  * Revision 6.4  2005-08-26 21:04:58  bert
  * Use #if rather than #ifdef with MINC2 symbol
  *
@@ -62,7 +61,6 @@
               make no representations about the suitability of this
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
-@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_routines.h,v 6.4 2005-08-26 21:04:58 bert Exp $ MINC (MNI)
 ---------------------------------------------------------------------------- */
 
 /* MINC routines that should only be visible to the package (semiprivate) */

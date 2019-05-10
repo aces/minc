@@ -4,7 +4,6 @@
 @GLOBALS    : 
 @CREATED    : January 4, 1996 (Peter Neelin)
 @MODIFIED   : 
- * $Log: ecat_file.c,v $
  * Revision 6.4  2008/01/17 02:33:01  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in

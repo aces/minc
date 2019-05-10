@@ -6,7 +6,10 @@
 @CREATED    : 17 Feburary, 2004 (Robert Vincent)
 @MODIFIED   : 
  *
- * $Log: minc_error.h,v $
+ * $Log: minc2_error.h,v $
+ * Revision 1.1  2019/04/04 22:22:27  clepage
+ * mincpik perl syntax for array
+ *
  * Revision 6.4  2008-04-11 05:15:00  rotor
  *  * rewrote error code  (Claude) to remove global defs that were
  *     causing build problems with DYLIB on OSX

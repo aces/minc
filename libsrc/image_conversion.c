@@ -33,7 +33,6 @@
                  MI_icv_calc_scale
 @CREATED    : July 27, 1992. (Peter Neelin, Montreal Neurological Institute)
 @MODIFIED   : 
- * $Log: image_conversion.c,v $
  * Revision 6.17  2010-03-02 12:23:14  rotor
  *  * ported HDF calls to 1.8.x
  *  * Makefile.am: updated for minccmp

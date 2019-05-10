@@ -9,7 +9,6 @@
 @CALLS      : 
 @CREATED    : February 11, 1993 (Peter Neelin)
 @MODIFIED   : 
- * $Log: minctoraw.c,v $
  * Revision 6.12  2008/01/17 02:33:06  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in
