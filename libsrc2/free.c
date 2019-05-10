@@ -4,13 +4,11 @@
 #include "minc2.h"
 #include <stdlib.h>
 
-/*!
-  Free space allocated for string storage by a MINC function.
- \param name_ptr A pointer to the space to be freed.
+/**
+ * Free space allocated for string storage by a MINC function.
+ * \param name_ptr A pointer to the space to be freed.
  */
-
-int 
-mifree_name(char *name_ptr)
+int mifree_name(char *name_ptr)
 {
   if (name_ptr == NULL) {
     return (MI_ERROR);
@@ -19,11 +17,11 @@ mifree_name(char *name_ptr)
   return (MI_NOERROR);
 }
 
-/*!
-  not certain we really need this...
+/**
+ * Free list of names
+ * not certain we really need this...
 */
-int
-mifree_names(char **name_pptr)
+int mifree_names(char **name_pptr)
 {
   if (name_pptr == NULL) {
     return (MI_ERROR);

@@ -1,3 +1,8 @@
+New in Release 2.1.03
+---------------------
+* Imported changes to libminc from minc-toolkit libminc/libsrc,
+  libminc/libsrc2, libminc/nifti.
+
 New in Release 2.1.02
 ---------------------
 * volume_io/Volumes/volumes.c: change data type of get_volume_total_n_voxels

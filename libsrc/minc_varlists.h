@@ -6,7 +6,7 @@
 @CREATED    : Peter Neelin (August 7, 1992)
 @MODIFIED   : 
  * $Log: minc_varlists.h,v $
- * Revision 6.1  1999/10/19 14:45:11  neelin
+ * Revision 6.1  1999-10-19 14:45:11  neelin
  * Fixed Log subsitutions for CVS
  *
  * Revision 6.0  1997/09/12 13:24:54  neelin
@@ -40,23 +40,23 @@
               make no representations about the suitability of this
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
-@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_varlists.h,v 6.1 1999/10/19 14:45:11 neelin Exp $ MINC (MNI)
+@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_varlists.h,v 6.1 1999-10-19 14:45:11 neelin Exp $ MINC (MNI)
 ---------------------------------------------------------------------------- */
 
 /* Variables containing list of standard dimension names and variable names */
 
 /* List of dimension variables. Note that MIvector_dimension is not included
    since it should not have an associated variable. */
-static char *dimvarlist[]={MIxspace, MIyspace, MIzspace, MItime, MItfrequency,
+static const char *dimvarlist[]={MIxspace, MIyspace, MIzspace, MItime, MItfrequency,
                            MIxfrequency, MIyfrequency, MIzfrequency, NULL};
 
 /* List of dimension width variables */
-static char *dimwidthlist[]={MIxspace_width, MIyspace_width, MIzspace_width,
+static const char *dimwidthlist[]={MIxspace_width, MIyspace_width, MIzspace_width,
                              MItime_width, MItfrequency_width, 
                              MIxfrequency_width, MIyfrequency_width,
                              MIzfrequency_width, NULL};
 
 /* List of variables */
-static char *varlist[]={MIrootvariable, MIimage, MIimagemax, MIimagemin, 
+static const char *varlist[]={MIrootvariable, MIimage, MIimagemax, MIimagemin, 
                         MIpatient, MIstudy, MIacquisition, NULL};
 

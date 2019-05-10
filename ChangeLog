@@ -4,6 +4,10 @@
    * mincpik defined(@array) in PERL (retroactive)
    * merged mincmorph-1.4 into minc/progs/ (retroactive)
 
+2018-02-22 Claude Lepage <claude@bic.mni.mcgill.ca>
+   * Imported changes to libminc from minc-toolkit libminc/libsrc,
+     libminc/libsrc2, libminc/nifti.
+
 2016-09-26 Claude Lepage <claude@bic.mni.mcgill.ca>
    * resample_volumes.c: use max <= min to set range per slice
 

@@ -15,20 +15,13 @@
  *
  * This file has been modified to be used only for argv parsing without
  * reference to tk, tcl or X11. Base on tk.h from tk2.3
- * $Header: /private-cvsroot/minc/libsrc/ParseArgv.h,v 6.6 2004/10/15 13:44:52 bert Exp $ SPRITE (Berkeley)
+ * $Header: /private-cvsroot/minc/libsrc/ParseArgv.h,v 6.6 2004-10-15 13:44:52 bert Exp $ SPRITE (Berkeley)
  */
 
+#ifdef HAVE_MINC1
 #include "minc.h"
-/*
- * Definitions that allow this header file to be used either with or
- * without ANSI C features like function prototypes.
- */
-
-#undef _ANSI_ARGS_
-#if ((defined(__STDC__) || defined(SABER)) && !defined(NO_PROTOTYPE)) || defined(__cplusplus)
-#   define _ANSI_ARGS_(x)	x
 #else
-#   define _ANSI_ARGS_(x)	()
+#define MNCAPI
 #endif
 
 /*
@@ -36,14 +29,14 @@
  */
 
 typedef struct {
-    const char *key;	/* The key string that flags the option in the
+    const char *key;    /* The key string that flags the option in the
 			 * argv array. */
     int type;		/* Indicates option type;  see below. */
-    char *src;		/* Value to be used in setting dst;  usage
+    const char *src;    /* Value to be used in setting dst;  usage
 			 * depends on type. */
-    char *dst;		/* Address of value to be modified;  usage
+    void *dst;          /* Address of value to be modified;  usage
 			 * depends on type. */
-    const char *help;	/* Documentation message describing this option. */
+    const char *help;   /* Documentation message describing this option. */
 } ArgvInfo;
 
 /*
@@ -84,9 +77,11 @@ typedef struct {
 #if defined(__cplusplus)
 extern "C" {
 #endif
+  
+int MNCAPI ParseArgv(int *argcPtr, char **argv,
+                     ArgvInfo *argTable, int flags);
 
-MNCAPI int ParseArgv _ANSI_ARGS_((int *argcPtr, char **argv,
-                                  ArgvInfo *argTable, int flags));
+long int MNCAPI ParseLong(const char *argPtr, char **endPtr);
 
 #if defined(__cplusplus)
 }

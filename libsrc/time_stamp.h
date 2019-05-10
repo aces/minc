@@ -5,7 +5,7 @@
 @CREATED    : February 1, 1993 (Peter Neelin)
 @MODIFIED   : 
  * $Log: time_stamp.h,v $
- * Revision 6.2  2004/10/15 13:46:51  bert
+ * Revision 6.2  2004-10-15 13:46:51  bert
  * Minor changes for Windows compatibility
  *
  * Revision 6.1  2002/01/14 21:28:26  neelin
@@ -51,13 +51,11 @@
               express or implied warranty.
 ---------------------------------------------------------------------------- */
 
-#include "minc.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-MNCAPI char *time_stamp(int argc, char *argv[]);
+char *time_stamp(int argc, char *argv[]);
 
 #ifdef __cplusplus
 }

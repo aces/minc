@@ -7,7 +7,7 @@
 @CREATED    : August 7, 1992 (Peter Neelin)
 @MODIFIED   : 
  * $Log: minc_error.c,v $
- * Revision 6.8  2009/01/20 11:58:13  rotor
+ * Revision 6.8  2009-01-20 11:58:13  rotor
  *  * CMakeLists.txt: updated version
  *  * Updated Changelog to include releases
  *  * Warning cleanups below
@@ -150,7 +150,9 @@ static struct mierror_entry mierror_table[] = {
     { MI_MSG_ERROR, "Error setting ICV property: %s"}, /* MI_MSG_BADPROP */
     { MI_MSG_ERROR, "ICV is not attached"}, /* MI_MSG_ICVNOTATTACHED */
     { MI_MSG_ERROR, "Invalid ICV coordinates"}, /* MI_MSG_ICVCOORDS */
-    { MI_MSG_ERROR, "Illegal variable access operation" } /* MI_MSG_BADOP */
+    { MI_MSG_ERROR, "Illegal variable access operation" }, /* MI_MSG_BADOP */
+    { MI_MSG_ERROR, "ncopts stack overflow" }, /* MI_MSG_NCOPTS_STACK_OVER */
+    { MI_MSG_ERROR, "ncopts stack underflow" } /* MI_MSG_NCOPTS_STACK_UNDER */
 };
 
 SEMIPRIVATE int MI_save_routine_name(char *name)
@@ -229,10 +231,10 @@ static struct {
 
 MNCAPI void milog_init(const char *name)
 {
-    char *fname_str = miget_cfg_str(MICFG_LOGFILE);
+    const char *fname_str = miget_cfg_str(MICFG_LOGFILE);
     int level = miget_cfg_int(MICFG_LOGLEVEL);
 
-    if (fname_str == NULL) {
+    if (!strlen(fname_str)) {
 	_MI_log.fp = stderr;
     }
     else if (!strcmp(fname_str, "stdout") || !strcmp(fname_str, "-")) {
@@ -251,11 +253,7 @@ MNCAPI void milog_init(const char *name)
         _MI_log.level = level;
     }
 
-    strncpy(_MI_log.prog, name, sizeof (_MI_log.prog));
-
-    if (fname_str != NULL) {
-        free(fname_str);
-    }
+    strncpy(_MI_log.prog, name, sizeof(_MI_log.prog) - 1 );
 }
 
 MNCAPI int milog_set_verbosity(int lvl)

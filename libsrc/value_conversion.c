@@ -14,7 +14,7 @@
 @CREATED    : July 27, 1992. (Peter Neelin, Montreal Neurological Institute)
 @MODIFIED   : 
  * $Log: value_conversion.c,v $
- * Revision 6.8  2008/01/17 02:33:02  rotor
+ * Revision 6.8  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in
  *  * removed old (and outdated) BUGS file
@@ -196,10 +196,10 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
    /* Try to find out the sign of the variable using MIsigntype.
       To avoid programs dying unexpectedly, we must change ncopts,
       then restore it */
-   oldncopts = ncopts;
-   ncopts = 0;
+   oldncopts =get_ncopts();
+   set_ncopts(0);
    string=miattgetstr(cdfid, varid, MIsigntype, MI_MAX_ATTSTR_LEN, string);
-   ncopts = oldncopts;
+   set_ncopts(oldncopts);
 
    /* Get the signs */
    strc.var_sign  = MI_get_sign_from_string(strc.var_type, string);
@@ -479,7 +479,7 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
 @CREATED    : July 30, 1992 (Peter Neelin)
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
-SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, char *sign)
+SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, const char *sign)
 {
    MI_SAVE_ROUTINE_NAME("MI_get_sign_from_string");
 

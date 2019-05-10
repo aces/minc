@@ -2,6 +2,9 @@
  * \brief MINC 2.0 Record Functions
  * \author Bert Vincent
  */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif /*HAVE_CONFIG_H*/
 
 #include <hdf5.h>
 #include "minc2.h"
@@ -10,8 +13,7 @@
 /** This method gets the name of the record dimension
  * TODO: set record name??
  */
-int 
-miget_record_name(mihandle_t volume,
+int  miget_record_name(mihandle_t volume,
                   char **name)
 {
     return (MI_NOERROR);
@@ -23,8 +25,7 @@ miget_record_name(mihandle_t volume,
  * uniform records and number of bytes for non_uniform ones) of the
  * record.
  */
-int 
-miget_record_length(mihandle_t volume,
+int miget_record_length(mihandle_t volume,
                     int *length)
 {
     if (volume == NULL || length == NULL) {
@@ -42,8 +43,7 @@ miget_record_length(mihandle_t volume,
  * for returned string is allocated on the heap and should be released using
  * mifree_name().
  */
-int
-miget_record_field_name(mihandle_t volume,
+int miget_record_field_name(mihandle_t volume,
                         int index,
                         char **name)
 {
@@ -65,14 +65,13 @@ miget_record_field_name(mihandle_t volume,
  * must be of class "MI_CLASS_UNIFORM_RECORD".  The size of record
  * type will be increased if necessary to accomodate the new field.
  */
-int
-miset_record_field_name(mihandle_t volume,
+int miset_record_field_name(mihandle_t volume,
                         int index,
                         const char *name)
 {
     hid_t mtype_id;
     hid_t ftype_id;
-    int offset;
+    size_t offset;
 
     if (volume == NULL || name == NULL) {
         return (MI_ERROR);

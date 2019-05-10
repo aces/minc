@@ -16,6 +16,7 @@
 #include "minc2.h"
 #include "minc2_private.h"
 
+
 /** Convert values between real (scaled) values and voxel (unscaled)
  * values.  The voxel value is the unscaled value, and corresponds to the
  * value actually stored in the file, whereas the "real" value is the
@@ -33,10 +34,9 @@
  * \param voxel_value_ptr A pointer to the converted voxel value.
  * \ingroup mi2Cvt
  */
-int
-miconvert_real_to_voxel(mihandle_t volume,
-                        const unsigned long coords[],
-                        int ncoords,
+int miconvert_real_to_voxel(mihandle_t volume,
+                        const misize_t coords[],
+                        size_t ncoords,
                         double real_value,
                         double *voxel_value_ptr
                         )
@@ -86,9 +86,8 @@ miconvert_real_to_voxel(mihandle_t volume,
  * \param real_value_ptr A pointer to the converted real value.
  * \ingroup mi2Cvt
  */
-int
-miconvert_voxel_to_real(mihandle_t volume,
-                        const unsigned long coords[],
+int miconvert_voxel_to_real(mihandle_t volume,
+                        const misize_t coords[],
                         int ncoords,
                         double voxel_value,
                         double *real_value_ptr)
@@ -132,7 +131,7 @@ mireorder_voxel_to_xyz(mihandle_t volume,
     for (i = 0; i < volume->number_of_dims; i++) {
         midimhandle_t hdim = volume->dim_handles[i];
         axis = hdim->world_index;
-        if ( axis >= 0 && dimclass == hdim->class) {
+        if ( axis >= 0 && dimclass == hdim->dim_class) {
             xyz[axis] = voxel[i];
         }
     }
@@ -151,7 +150,7 @@ mireorder_xyz_to_voxel(mihandle_t volume,
     for (i = 0; i < volume->number_of_dims; i++) {
         midimhandle_t hdim = volume->dim_handles[i];
         axis = hdim->world_index;
-        if ( axis >= 0 && dimclass == hdim->class) {
+        if ( axis >= 0 && dimclass == hdim->dim_class) {
             voxel[i] = xyz[axis];
         }
     }
@@ -167,8 +166,7 @@ mireorder_xyz_to_voxel(mihandle_t volume,
  *
  * \ingroup mi2Cvt
  */
-int
-miconvert_voxel_to_world(mihandle_t volume,
+int miconvert_voxel_to_world(mihandle_t volume,
                          const double voxel[],
                          double world[MI2_3D])
 {
@@ -189,8 +187,7 @@ miconvert_voxel_to_world(mihandle_t volume,
  *
  * \ingroup mi2Cvt
  */
-int
-miconvert_world_to_voxel(mihandle_t volume,
+int miconvert_world_to_voxel(mihandle_t volume,
                          const double world[MI2_3D],
                          double voxel[])
 {
@@ -217,9 +214,8 @@ miconvert_world_to_voxel(mihandle_t volume,
  *
  * \ingroup mi2Cvt
  */
-int
-miget_real_value(mihandle_t volume,
-                 const unsigned long coords[],
+int miget_real_value(mihandle_t volume,
+                 const misize_t coords[],
                  int ndims,
                  double *value_ptr)
 {
@@ -245,15 +241,15 @@ miget_real_value(mihandle_t volume,
  *
  * \ingroup mi2Cvt
  */
-int
-miset_real_value(mihandle_t volume,
-                 const unsigned long coords[],
+int miset_real_value(mihandle_t volume,
+                 const misize_t coords[],
                  int ndims,
                  double value)
 {
     double voxel;
 
     if ((volume->mode & MI2_OPEN_RDWR) == 0) {
+        //TODO: report that file is not open properly
         return (MI_ERROR);
     }
 
@@ -274,6 +270,7 @@ miconvert_world_origin_to_start( mihandle_t volume,
                                  double world[3],
                                  double starts[3])
 {
+    fprintf(stderr, "miconvert_world_origin_to_start: Not implemented.\n");
     return (MI_NOERROR);
 }
 
@@ -289,6 +286,7 @@ miconvert_spatial_frequency_origin_to_start( mihandle_t volume,
                                              double world[3],
                                              double starts[3])
 {
+    fprintf(stderr, "miconvert_spatial_frequency_origin_to_start: Not implemented.\n");
     return (MI_NOERROR);
 }
 
@@ -408,6 +406,7 @@ convert_transform_origin_to_starts(mihandle_t hvol,
         break;
     }
 }
+
 /**
  * This function sets the world coordinates of the point (0,0,0) in voxel
  * coordinates.  This changes the constant offset of the two coordinate
@@ -415,8 +414,7 @@ convert_transform_origin_to_starts(mihandle_t hvol,
  *
  * \ingroup mi2Cvt
  */
-int
-miset_world_origin(mihandle_t volume, /**< A volume handle */
+int miset_world_origin(mihandle_t volume, /**< A volume handle */
                    double world[MI2_3D]) /**< The world coordinates of voxel origin  */
 {
     double starts[MI2_3D];
@@ -425,8 +423,8 @@ miset_world_origin(mihandle_t volume, /**< A volume handle */
     convert_transform_origin_to_starts(volume, world, starts);
     for (i = 0; i < volume->number_of_dims; i++) {
         midimhandle_t hdim = volume->dim_handles[i];
-        if (hdim->class == MI_DIMCLASS_SPATIAL || 
-            hdim->class == MI_DIMCLASS_SFREQUENCY) {
+        if (hdim->dim_class == MI_DIMCLASS_SPATIAL || 
+            hdim->dim_class == MI_DIMCLASS_SFREQUENCY) {
             hdim->start = starts[hdim->world_index];
         }
     }
@@ -456,6 +454,7 @@ miset_spatial_frequency_origin(mihandle_t volume,
         return (MI_ERROR);
     }
 
+    fprintf(stderr, "miset_spatial_frequency_origin: Not implemented.\n");
     return (MI_NOERROR);
 }
 
@@ -465,14 +464,13 @@ miset_spatial_frequency_origin(mihandle_t volume,
  *
  * \ingroup mi2Cvt
  */
-int
-miget_voxel_value(mihandle_t volume,
-                  const unsigned long coords[],
+int miget_voxel_value(mihandle_t volume,
+                  const misize_t coords[],
                   int ndims,
                   double *voxel_ptr)
 {
     int result;
-    unsigned long count[MI2_MAX_VAR_DIMS];
+    misize_t count[MI2_MAX_VAR_DIMS];
     int i;
 
     for (i = 0; i < volume->number_of_dims; i++) {
@@ -489,14 +487,13 @@ miget_voxel_value(mihandle_t volume,
  *
  * \ingroup mi2Cvt
  */
-int
-miset_voxel_value(mihandle_t volume,
-                  const unsigned long coords[],
+int miset_voxel_value(mihandle_t volume,
+                  const misize_t coords[],
                   int ndims,
                   double voxel)
 {
     int result;
-    unsigned long count[MI2_MAX_VAR_DIMS];
+    misize_t count[MI2_MAX_VAR_DIMS];
     int i;
 
     if ((volume->mode & MI2_OPEN_RDWR) == 0) {
@@ -513,12 +510,7 @@ miset_voxel_value(mihandle_t volume,
 }
 
 
-/** Get the absolute minimum and maximum values of a volume.
- *
- * \ingroup mi2Cvt
- */
-int
-miget_volume_real_range(mihandle_t volume, double real_range[])
+int miget_volume_real_range(mihandle_t volume, double real_range[])
 {
     hid_t spc_id;
     int n;
@@ -541,7 +533,7 @@ miget_volume_real_range(mihandle_t volume, double real_range[])
     H5Dread(volume->imin_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT,
             buffer);
 
-    real_range[0] = FLT_MAX;
+    real_range[0] = DBL_MAX;
 
     for (i = 0; i < n; i++) {
         if (buffer[i] < real_range[0]) {
@@ -567,7 +559,7 @@ miget_volume_real_range(mihandle_t volume, double real_range[])
     H5Dread(volume->imax_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT,
             buffer);
 
-    real_range[1] = FLT_MIN;
+    real_range[1] = -DBL_MAX;
 
     for (i = 0; i < n; i++) {
         if (buffer[i] > real_range[1]) {

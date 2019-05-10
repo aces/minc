@@ -1,14 +1,24 @@
-#ifndef _MINC_CONFIG_H_
-#define _MINC_CONFIG_H_
+#ifndef __MINC_CONFIG_H__
+#define __MINC_CONFIG_H__
 
-#define MICFG_FORCE_V2 "MINC_FORCE_V2"
-#define MICFG_COMPRESS "MINC_COMPRESS"
-#define MICFG_CHUNKING "MINC_CHUNKING"
-#define MICFG_LOGFILE  "MINC_LOGFILE"
-#define MICFG_LOGLEVEL "MINC_LOGLEVEL"
 
-extern int miget_cfg_bool(const char *);
-extern int miget_cfg_int(const char *);
-extern char * miget_cfg_str(const char *);
+enum MINC_CONFIG { 
+  MICFG_FORCE_V2=0,
+  MICFG_COMPRESS,
+  MICFG_CHUNKING,
+  MICFG_LOGFILE,
+  MICFG_LOGLEVEL,
+  MICFG_MAXBUF,
+  MICFG_MAXMEM,
+  MICFG_MINC_FILE_CACHE,
+  MICFG_MINC_CHECKSUM,
+  MICFG_COUNT
+};
 
-#endif /* _MINC_CONFIG_H_ */
+extern int          miget_cfg_present(int);
+extern int          miget_cfg_bool(int);
+extern int          miget_cfg_int(int);
+extern const char * miget_cfg_str(int);
+extern double miget_cfg_double(int);
+
+#endif /* __MINC_CONFIG_H__ */

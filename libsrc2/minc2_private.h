@@ -2,6 +2,12 @@
  * \file minc2_private.h
  * \brief MINC 2.0 private constants, types, and functions.
  */
+#ifndef MINC2_PRIVATE_H
+#define MINC2_PRIVATE_H
+
+#include <string.h>
+#include "minc2_structs.h"
+
 /** The root of all MINC 2.0 objects in the HDF5 hierarchy.
  */
 #define MI_ROOT_PATH "/minc-2.0"
@@ -50,16 +56,17 @@ typedef long long mi_i64_t;
  * Volume properties  
  */
 struct mivolprops {
-    miboolean_t enable_flag;        /* enable multi-res */
+    miboolean_t enable_flag;    /* enable multi-res */
     int depth;                  /* multi-res depth */
     micompression_t compression_type;
     int zlib_level; 
     int edge_count;             /* how many chunks */
     int *edge_lengths;          /* size of each chunk */
     int max_lengths;
-    long record_length;
+    misize_t record_length;
     char *record_name;
     int  template_flag;
+    int checksum;               /*FLETCHER32 checksum is enabled*/
 }; 
 
 /** \internal
@@ -67,13 +74,13 @@ struct mivolprops {
  */
 struct midimension {
   midimattr_t attr;             /* Dimension attributes */
-  midimclass_t class;           /* Dimension class */
+  midimclass_t dim_class;       /* Dimension class */
   double direction_cosines[3];  /* Direction cosines */
   miflipping_t flipping_order;
   char *name;                   /* Dimension name */
   double *offsets;              /* Offsets (if irregular) */
   double step;                  /* Step size */
-  unsigned int length;         /* Length */
+  misize_t length;              /* Length */
   double start;                 /* Start value */
   char *units;                  /* Units string */
   double width;                 /* Sample width (if regular) */
@@ -109,7 +116,7 @@ struct mivolume {
   hid_t imin_id;                /* Dataset for image-min */
   double scale_min;             /* Global minimum */
   double scale_max;             /* Global maximum */
-  miboolean_t is_dirty;             /* TRUE if data has been modified. */
+  miboolean_t is_dirty;         /* TRUE if data has been modified. */
 };
 
 /**
@@ -117,64 +124,93 @@ struct mivolume {
  * "semi-private" functions.
  ****************************************************************************/
 /* From m2util.c */
-extern hid_t midescend_path(hid_t file_id, const char *path);
-extern hid_t mitype_to_hdftype(mitype_t, int);
-extern int mitype_to_nctype(mitype_t, int *is_signed);
+hid_t midescend_path(hid_t file_id, const char *path);
+hid_t mitype_to_hdftype(mitype_t, int);
+int mitype_len ( mitype_t mitype );
+const char * mitype_sign ( mitype_t mitype );
 
-extern int miget_attribute(mihandle_t volume, const char *varpath, 
+int mitype_to_nctype(mitype_t, int *is_signed);
+
+int miget_attribute(mihandle_t volume, const char *varpath, 
                            const char *attname, mitype_t data_type, 
-                           int maxvals, void *values);
-extern int miset_attr_at_loc(hid_t hdf_loc, const char *attname, 
+                           size_t maxvals, void *values);
+
+int miset_attr_at_loc(hid_t hdf_loc, const char *attname, 
                              mitype_t data_type, 
-                             int maxvals, const void *values);
-extern int miset_attribute(mihandle_t volume, const char *varpath, 
+                             size_t maxvals, const void *values);
+
+int miset_attribute(mihandle_t volume, const char *varpath, 
                            const char *attname, mitype_t data_type, 
-                           int maxvals, const void *values);
-extern void mifind_spatial_dims(int mincid, int space_to_dim[], int dim_to_space[]);
-extern void miget_voxel_to_world(mihandle_t volume, mi_lin_xfm_t voxel_to_world);
-extern void minormalize_vector(double vector[]);
-extern void mitransform_coord(double out_coord[],
+                           size_t maxvals, const void *values);
+
+/*void mifind_spatial_dims(int mincid, int space_to_dim[], int dim_to_space[]);*/
+
+void miget_voxel_to_world(mihandle_t volume, mi_lin_xfm_t voxel_to_world);
+
+void minormalize_vector(double vector[]);
+
+void mitransform_coord(double out_coord[],
                               mi_lin_xfm_t transform,
                               const double in_coord[]);
-extern int miinvert_transform(mi_lin_xfm_t transform, mi_lin_xfm_t inverse);
 
-extern void miinit(void);
-extern void miinit_enum(hid_t);
+int  miinvert_transform(mi_lin_xfm_t transform, mi_lin_xfm_t inverse);
 
-extern int miget_scalar(hid_t loc_id, hid_t type_id, const char *path, 
+void miinit(void);
+
+void miinit_enum(hid_t);
+
+int miget_scalar(hid_t loc_id, hid_t type_id, const char *path, 
                         void *data);
 
-extern int minc_create_thumbnail(mihandle_t volume, int grp);
-extern int minc_update_thumbnail(mihandle_t volume, hid_t loc_id, int igrp, int ogrp);
-extern int minc_update_thumbnails(mihandle_t volume);
+int minc_create_thumbnail(mihandle_t volume, int grp);
 
-extern int scaled_maximal_pivoting_gaussian_elimination(int   n,
-                                                        int   row[],
-                                                        double **a,
-                                                        int   n_values,
-                                                        double **solution );
+int minc_update_thumbnail(mihandle_t volume, hid_t loc_id, int igrp, int ogrp);
 
-extern int scaled_maximal_pivoting_gaussian_elimination_real(int n,
-                                                             double **coefs,
-                                                             int n_values,
-                                                             double **values );
+int minc_update_thumbnails(mihandle_t volume);
 
-extern double *alloc1d(int);
-extern double **alloc2d(int, int);
-extern void free2d(int, double **);
-extern int create_standard_dataset(hid_t hdf_file, const char *path);
+int scaled_maximal_pivoting_gaussian_elimination(int   n,
+                                                  int   row[],
+                                                  double **a,
+                                                  int   n_values,
+                                                  double **solution );
+
+int scaled_maximal_pivoting_gaussian_elimination_real(int n,
+                                                      double **coefs,
+                                                      int n_values,
+                                                      double **values );
+
+double *alloc1d(int);
+double **alloc2d(int, int);
+void free2d(int, double **);
+
+/* m2util : creation of minc2 comformant datasets*/
+int create_dataset(hid_t hdf_file, const char *path);
+int create_standard_dataset(hid_t hdf_file, const char *path);
+
+int add_minimal_minc_attributes(hid_t hdf_file, hid_t dset_id);
+int add_standard_minc_attributes(hid_t hdf_file, hid_t dset_id);
+
 
 /* From hyper.c */
-extern int mitranslate_hyperslab_origin(mihandle_t volume, 
-                                        const unsigned long start[], 
-                                        const unsigned long count[],
-                                        hssize_t hdf_start[],
-                                        hsize_t hdf_count[],
-                                        int dir[]);
+int mitranslate_hyperslab_origin(mihandle_t volume, 
+                                const misize_t* start, 
+                                const misize_t* count,
+                                hsize_t* hdf_start,
+                                hsize_t* hdf_count,
+                                int* dir);
 /* From volume.c */
-extern void misave_valid_range(mihandle_t volume);
+void misave_valid_range(mihandle_t volume);
 
-/* External */
-#include "../libsrc/minc_private.h"
+/* From valid.c*/
+void miinit_default_range(mitype_t mitype, double *valid_max, double *valid_min);
 
 
+#ifdef _MSC_VER
+double rint(double v);
+#define snprintf _snprintf 
+#define vsnprintf _vsnprintf 
+#define strcasecmp _stricmp 
+#define strncasecmp _strnicmp 
+#endif
+
+#endif /*MINC2_PRIVATE_H*/

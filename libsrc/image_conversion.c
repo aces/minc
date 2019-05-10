@@ -396,27 +396,38 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
                                                icvp->user_sign);
       break;
    case MI_ICV_DO_RANGE:
-      icvp->user_do_range = value; break;
+      icvp->user_do_range = value;
+      break;
    case MI_ICV_VALID_MAX:
-      icvp->user_vmax   = value; break;
+      icvp->user_vmax   = value;
+      break;
    case MI_ICV_VALID_MIN:
-      icvp->user_vmin   = value; break;
+      icvp->user_vmin   = value;
+      break;
    case MI_ICV_DO_NORM:
-      icvp->user_do_norm = value; break;
+      icvp->user_do_norm = value;
+      break;
    case MI_ICV_USER_NORM:
-      icvp->user_user_norm = value; break;
+      icvp->user_user_norm = value;
+      break;
    case MI_ICV_IMAGE_MAX:
-      icvp->user_imgmax = value; break;
+      icvp->user_imgmax = value;
+      break;
    case MI_ICV_IMAGE_MIN:
-      icvp->user_imgmin = value; break;
+      icvp->user_imgmin = value;
+      break;
    case MI_ICV_DO_FILLVALUE:
-      icvp->user_do_fillvalue = value; break;
+      icvp->user_do_fillvalue = value;
+      break;
    case MI_ICV_FILLVALUE:
-      icvp->user_fillvalue = value; break;
+      icvp->user_fillvalue = value;
+      break;
    case MI_ICV_DO_DIM_CONV:
-      icvp->user_do_dimconv = value; break;
+      icvp->user_do_dimconv = value;
+      break;
    case MI_ICV_DO_SCALAR:
-      icvp->user_do_scalar = value; break;
+      icvp->user_do_scalar = value;
+      break;
    case MI_ICV_XDIM_DIR: 
       ival = value;
       icvp->user_xdim_dir = ((ival==MI_ICV_POSITIVE) || 
@@ -441,18 +452,21 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
       icvp->user_num_imgdims = ival;
       break;
    case MI_ICV_ADIM_SIZE:
-      icvp->user_dim_size[0] = value; break;
+      icvp->user_dim_size[0] = value;
+      break;
    case MI_ICV_BDIM_SIZE:
-      icvp->user_dim_size[1] = value; break;
+      icvp->user_dim_size[1] = value;
+      break;
    case MI_ICV_KEEP_ASPECT:
-      icvp->user_keep_aspect = value; break;
+      icvp->user_keep_aspect = value;
+      break;
    case MI_ICV_SIGN:
    case MI_ICV_MAXVAR:
    case MI_ICV_MINVAR:
-       milog_message(MI_MSG_BADPROP, 
-                     _("Can't store a number in a string value"));
-       MI_RETURN(MI_ERROR);
-       break;
+      milog_message(MI_MSG_BADPROP,
+                    _("Can't store a number in a string value"));
+      MI_RETURN(MI_ERROR);
+      break;
    default:
       /* Check for image dimension properties */
       if ((icv_property>=MI_ICV_DIM_SIZE) && 
@@ -543,7 +557,7 @@ MNCAPI int miicv_setlong(int icvid, int icv_property, long value)
 @CREATED    : January 22, 1993 (Peter Neelin)
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
-MNCAPI int miicv_setstr(int icvid, int icv_property, char *value)
+MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
 {
    mi_icv_type *icvp;
 
@@ -857,8 +871,8 @@ MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
    case MI_ICV_NUM_DIMS:
    case MI_ICV_CDFID:
    case MI_ICV_VARID:
-       milog_message(MI_MSG_BADPROP, 
-                     _("Tried to get icv numeric property as a string"));
+      milog_message(MI_MSG_BADPROP,
+                    _("Tried to get icv numeric property as a string"));
       MI_RETURN(MI_ERROR);
       break;
    default:
@@ -1021,9 +1035,9 @@ PRIVATE int MI_icv_get_type(mi_icv_type *icvp, int cdfid, int varid)
    }
 
    /* Try to find out the sign of the variable using MIsigntype. */
-   oldncopts = ncopts; ncopts = 0;
+   oldncopts =get_ncopts(); set_ncopts(0);
    string=miattgetstr(cdfid, varid, MIsigntype, MI_MAX_ATTSTR_LEN, string);
-   ncopts = oldncopts;
+   set_ncopts(oldncopts);
    icvp->var_sign  = MI_get_sign_from_string(icvp->var_type, string);
 
    /* Get type lengths */
@@ -1095,7 +1109,7 @@ PRIVATE double MI_get_default_range(char *what, nc_type datatype, int sign)
       MI_RETURN(range[0]);
    }
    else {
-      ncopts = NC_VERBOSE | NC_FATAL;
+      set_ncopts(NC_VERBOSE | NC_FATAL);
       MI_LOG_PKG_ERROR2(-1,"MINC bug - this line should never be printed");
    }
 
@@ -1142,10 +1156,10 @@ PRIVATE int MI_icv_get_norm(mi_icv_type *icvp, int cdfid, int varid)
    icvp->derv_firstdim=(-1);
 
    /* Look for image max, image min variables */
-   oldncopts=ncopts; ncopts=0;
+   oldncopts=get_ncopts(); set_ncopts(0);
    icvp->imgmaxid=ncvarid(cdfid, icvp->user_maxvar);
    icvp->imgminid=ncvarid(cdfid, icvp->user_minvar);
-   ncopts = oldncopts;
+   set_ncopts(oldncopts);
 
    /* Check to see if normalization to variable max, min should be done */
    if (!icvp->user_do_norm) {
@@ -1581,6 +1595,9 @@ PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
          if (var_start[i]<0) var_start[i] = 0;
          if (last_coord>=icvp->var_dim_size[j]) 
             last_coord = icvp->var_dim_size[j] - 1;
+         /* Enforce similar bounds on var_start (bert) */
+         if (var_start[i] >= icvp->var_dim_size[j])
+            var_start[i] = icvp->var_dim_size[j] - 1;
          var_count[i] = last_coord - var_start[i] + 1;
       }
    }

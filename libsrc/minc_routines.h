@@ -1,5 +1,5 @@
-#ifndef  MINC_ROUTINES_HEADER_FILE
-#define  MINC_ROUTINES_HEADER_FILE
+#ifndef MINC_ROUTINES_H
+#define MINC_ROUTINES_H
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : minc_routines.h
@@ -13,7 +13,7 @@
 @CREATED    : August 28, 1992 (Peter Neelin)
 @MODIFIED   : 
  * $Log: minc_routines.h,v $
- * Revision 6.4  2005/08/26 21:04:58  bert
+ * Revision 6.4  2005-08-26 21:04:58  bert
  * Use #if rather than #ifdef with MINC2 symbol
  *
  * Revision 6.3  2004/12/14 23:53:46  bert
@@ -62,7 +62,7 @@
               make no representations about the suitability of this
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
-@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_routines.h,v 6.4 2005/08/26 21:04:58 bert Exp $ MINC (MNI)
+@RCSID      : $Header: /private-cvsroot/minc/libsrc/minc_routines.h,v 6.4 2005-08-26 21:04:58 bert Exp $ MINC (MNI)
 ---------------------------------------------------------------------------- */
 
 /* MINC routines that should only be visible to the package (semiprivate) */
@@ -86,7 +86,7 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
                             void *caller_data,
                             int (*action_func) (int, long [], long [], 
                                                 long, void *, void *));
-SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, char *sign);
+SEMIPRIVATE int MI_get_sign_from_string(nc_type datatype, const char *sign);
 SEMIPRIVATE int MI_convert_type(long number_of_values,
                                 nc_type intype,  int insign,  void *invalues,
                                 nc_type outtype, int outsign, void *outvalues,

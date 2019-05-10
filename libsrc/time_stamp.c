@@ -5,7 +5,7 @@
 @CREATED    : February 1, 1993 (Peter Neelin)
 @MODIFIED   : 
  * $Log: time_stamp.c,v $
- * Revision 6.4  2008/01/17 02:33:02  rotor
+ * Revision 6.4  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in
  *  * removed old (and outdated) BUGS file
@@ -58,8 +58,14 @@
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
 ---------------------------------------------------------------------------- */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif /*HAVE_CONFIG_H*/
 
-#include "minc_private.h"
+#ifdef HAVE_STRING_H
+#include <string.h>
+#endif
+
 #include <time.h>
 #include <time_stamp.h>
 
@@ -78,10 +84,13 @@
 @CREATED    : February 1, 1993 (Peter Neelin)
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
+#include <stdlib.h>
+
 char *time_stamp(int argc, char *argv[])
 {
    char *str, *the_time;
-   int length, i, last;
+   size_t length, last;
+   int i;
    static char separator[]={">>>"};
    time_t timer;
 

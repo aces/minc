@@ -18,7 +18,7 @@
 @CREATED    : September 9, 1992. (Peter Neelin)
 @MODIFIED   : 
  * $Log: dim_conversion.c,v $
- * Revision 6.6  2008/01/17 02:33:02  rotor
+ * Revision 6.6  2008-01-17 02:33:02  rotor
  *  * removed all rcsids
  *  * removed a bunch of ^L's that somehow crept in
  *  * removed old (and outdated) BUGS file
@@ -246,9 +246,9 @@ PRIVATE int MI_icv_get_dim(mi_icv_type *icvp, int cdfid, int varid)
    for (idim=0; idim < icvp->user_num_imgdims; idim++) {
       {MI_CHK_ERR(ncdiminq(cdfid, icvp->var_dim[subsc[idim]], dimname, 
                        &(icvp->var_dim_size[idim])))};
-      oldncopts = ncopts; ncopts = 0;
+      oldncopts =get_ncopts(); set_ncopts(0);
       dimvid[idim] = ncvarid(cdfid, dimname);
-      ncopts = oldncopts;
+      set_ncopts(oldncopts);
    }
 
    /* Check for flipping */
@@ -323,9 +323,9 @@ PRIVATE int MI_get_dim_flip(mi_icv_type *icvp, int cdfid, int dimvid[],
             provided. */
          dimstep = 1.0;
          if (dimvid[idim] != MI_ERROR) {   /* if dimension exists */
-            oldncopts = ncopts; ncopts = 0;
+            oldncopts =get_ncopts(); set_ncopts(0);
             (void) miattget1(cdfid, dimvid[idim], MIstep, NC_DOUBLE, &dimstep);
-            ncopts = oldncopts;
+            set_ncopts(oldncopts);
          }                           /* if dimension exists */
          if (dim_dir == MI_ICV_POSITIVE)
             icvp->derv_dim_flip[idim] = (dimstep<0.0);
@@ -460,7 +460,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       /* Get pixel step and start for variable and calculate for user.
          Look for them in the dimension variable (if MIstep is not
          there, then use defaults step = 1.0, start = 0.0 */
-      oldncopts = ncopts; ncopts = 0;
+      oldncopts =get_ncopts(); set_ncopts(0);
       dimstep = 1.0;
       (void) miattget1(cdfid, dimvid[idim], MIstep, NC_DOUBLE, &dimstep);
       /* Flip dimstep if needed */
@@ -481,7 +481,7 @@ PRIVATE int MI_get_dim_scale(mi_icv_type *icvp, int cdfid, int dimvid[])
       icvp->derv_dim_start[idim] = dimstart + 
          (icvp->derv_dim_step[idim] - dimstep) / 2.0 -
             icvp->derv_dim_off[idim] * icvp->derv_dim_step[idim];
-      ncopts = oldncopts;
+      set_ncopts(oldncopts);
 
    }                 /* for each dimension */
 
@@ -903,8 +903,31 @@ PRIVATE int MI_icv_dimconv_init(int operation, mi_icv_type *icvp,
                   - icvp->derv_icv_start[idim] + offset;
          }
       }
-      buffer_off += buffer_index * labs(dcp->buf_step[idim]);
-      values_off += values_index * labs(dcp->usr_step[idim]);
+
+      /* Force these offsets to stay within the presumed limits of the
+       * allocated memory. Before implementing this change it was
+       * possible for miicv_get() or miicv_put() to write outside the
+       * "values" buffer, leading to heap corruption.  I overload the
+       * "pixcount" variable since it is never really used elsewhere
+       * (bert).
+       */
+      pixcount = buffer_index * labs(dcp->buf_step[idim]);
+      if (buffer_off + pixcount < buffer_len) {
+        buffer_off += pixcount;
+      }
+      pixcount = values_index * labs(dcp->usr_step[idim]);
+      if (values_off + pixcount < values_len) {
+        values_off += pixcount;
+      }
+   }
+
+   /* Disallow negative offsets to avoid illegal accesses (bert).
+    */
+   if (buffer_off < 0) {
+     buffer_off = 0;
+   }
+   if (values_off < 0) {
+     values_off = 0;
    }
 
    /* Calculate arrays of offsets for compress/expand. */

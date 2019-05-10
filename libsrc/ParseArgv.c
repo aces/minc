@@ -19,13 +19,42 @@
  *
  * Modifications by Peter Neelin (November 27, 1992)
  */
+#ifdef HAVE_CONFIG_H
 #include "config.h"
-#include "minc_private.h"
+#endif
+
 #include <stdio.h>
+
+#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
+#endif
+
+#ifdef HAVE_STRING_H
 #include <string.h>
+#endif
+
+#ifdef HAVE_INTTYPES_H
+#include <inttypes.h>
+#endif
+
+#ifdef HAVE_MINC1
+#include "minc.h"
+#endif
+
+#ifdef HAVE_MINC2
+#include <hdf5.h>
+#endif 
+
 #include <math.h>
 #include <ParseArgv.h>
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
 
 /*
  * Default table of argument descriptors.  These are normally available
@@ -42,11 +71,37 @@ static ArgvInfo defaultTable[] = {
 };
 
 /*
- * Forward declarations for procedures defined in this file:
+ * Forward declarations for functions defined in this file:
  */
 
-static void	PrintUsage _ANSI_ARGS_((ArgvInfo *argTable, int flags));
-static void     PrintVersion(ArgvInfo *argTable);
+static void PrintUsage(ArgvInfo *argTable, int flags);
+static void PrintVersion(ArgvInfo *argTable);
+
+/*
+ * ParseLong
+ *
+ * Quick replacement for strtol which eliminates the undesirable property
+ * of interpreting numbers with leading '0' characters as octal, while
+ * retaining "0x" as indicating a hexidecimal number.
+ */
+long int
+ParseLong(const char *argPtr, char **endPtr)
+{
+  const char *tmpPtr = argPtr;
+  int base = 10;                /* Default to decimal. */
+
+  /* Skip sign if present.
+   */
+  if (tmpPtr[0] == '+' || tmpPtr[0] == '-')
+    tmpPtr++;
+
+  /* If '0x' or '0X', treat this as hex.
+   */
+  if (tmpPtr[0] == '0' && (tmpPtr[1] == 'x' || tmpPtr[1] == 'X'))
+    base = 16;
+
+  return strtol(argPtr, endPtr, base);
+}
 
 /*
  *----------------------------------------------------------------------
@@ -80,12 +135,12 @@ ParseArgv(argcPtr, argv, argTable, flags)
     int flags;			/* Or'ed combination of various flag bits,
 				 * such as ARGV_NO_DEFAULTS. */
 {
-   register ArgvInfo *infoPtr;
+   ArgvInfo *infoPtr;
 				/* Pointer to the current entry in the
 				 * table of argument descriptions. */
    ArgvInfo *matchPtr;	/* Descriptor that matches current argument. */
    char *curArg;		/* Current argument */
-   register char c;		/* Second character of current arg (used for
+   char c;		/* Second character of current arg (used for
 				 * quick check for matching;  use 2nd char.
 				 * because first char. will almost always
 				 * be '-'). */
@@ -95,9 +150,9 @@ ParseArgv(argcPtr, argv, argTable, flags)
 				 * argument should be copied (never greater
 				 * than srcIndex). */
    int argc;			/* # arguments in argv still to process. */
-   int length;			/* Number of characters in current argument. */
-   int nargs;        /* Number of following arguments to get. */
-   int i;
+   size_t length;			/* Number of characters in current argument. */
+   uintptr_t nargs;        /* Number of following arguments to get. */
+   uintptr_t i;
 
 /* Macro to optionally print errors */
 #define FPRINTF if (!(flags&ARGV_NO_PRINT)) (void) fprintf
@@ -174,10 +229,10 @@ ParseArgv(argcPtr, argv, argTable, flags)
       infoPtr = matchPtr;
       switch (infoPtr->type) {
       case ARGV_CONSTANT:
-         *((int *) infoPtr->dst) = (int) infoPtr->src;
+         *((int *) infoPtr->dst) = (intptr_t) infoPtr->src;
          break;
       case ARGV_INT:
-         nargs = (int) infoPtr->src;
+         nargs = (uintptr_t) infoPtr->src;
          if (nargs<1) nargs=1;
          for (i=0; i<nargs; i++) {
             if (argc == 0) {
@@ -186,7 +241,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
                char *endPtr;
 
                *(((int *) infoPtr->dst)+i) =
-                  strtol(argv[srcIndex], &endPtr, 0);
+                  ParseLong(argv[srcIndex], &endPtr);
                if ((endPtr == argv[srcIndex]) || (*endPtr != 0)) {
                   FPRINTF(stderr, 
                   "expected integer argument for \"%s\" but got \"%s\"",
@@ -199,7 +254,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
          }
          break;
       case ARGV_LONG:
-         nargs = (int) infoPtr->src;
+         nargs = (uintptr_t) infoPtr->src;
          if (nargs<1) nargs=1;
          for (i=0; i<nargs; i++) {
             if (argc == 0) {
@@ -208,7 +263,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
                char *endPtr;
 
                *(((long *) infoPtr->dst)+i) =
-                  strtol(argv[srcIndex], &endPtr, 0);
+                  ParseLong(argv[srcIndex], &endPtr);
                if ((endPtr == argv[srcIndex]) || (*endPtr != 0)) {
                   FPRINTF(stderr, 
                   "expected integer argument for \"%s\" but got \"%s\"",
@@ -222,7 +277,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
          break;
 
       case ARGV_STRING:
-         nargs = (int) infoPtr->src;
+         nargs = (uintptr_t) infoPtr->src;
          if (nargs<1) nargs=1;
          for (i=0; i<nargs; i++) {
             if (argc == 0) {
@@ -238,7 +293,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
          *((int *) infoPtr->dst) = dstIndex;
          goto argsDone;
       case ARGV_FLOAT:
-         nargs = (int) infoPtr->src;
+         nargs = (uintptr_t) infoPtr->src;
          if (nargs<1) nargs=1;
          for (i=0; i<nargs; i++) {
             if (argc == 0) {
@@ -260,9 +315,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
          }
          break;
       case ARGV_FUNC: {
-         int (*handlerProc)();
-
-         handlerProc = (int (*)())infoPtr->src;
+         int (*handlerProc)() =  (int (*)())(uintptr_t)infoPtr->src;
 		
          if ((*handlerProc)(infoPtr->dst, infoPtr->key,
                             argv[srcIndex])) {
@@ -272,9 +325,7 @@ ParseArgv(argcPtr, argv, argTable, flags)
          break;
       }
       case ARGV_GENFUNC: {
-         int	    (*handlerProc)();
-
-         handlerProc = (int (*)())infoPtr->src;
+         int (*handlerProc)() = (int (*)())(uintptr_t)infoPtr->src;
 
          argc = (*handlerProc)(infoPtr->dst, infoPtr->key,
                                argc, argv+srcIndex);
@@ -324,6 +375,11 @@ ParseArgv(argcPtr, argv, argTable, flags)
  *
  *	Generate a help string describing command-line options.
  *
+ * argTable: Array of command-specific argument descriptions.
+ *
+ * flags: If the ARGV_NO_DEFAULTS bit is set in this word, then don't
+ *        generate information for default options.
+ *
  * Results:
  *	Prints on stderr (unless ARGV_NO_PRINT is specified in flags) 
  *	a help string describing all the options in argTable, plus all those
@@ -337,19 +393,11 @@ ParseArgv(argcPtr, argv, argTable, flags)
  */
 
 static void
-PrintUsage(argTable, flags)
-     ArgvInfo *argTable;	/* Array of command-specific argument
-				 * descriptions. */
-     int flags;			/* If the ARGV_NO_DEFAULTS bit is set
-				 * in this word, then don't generate
-				 * information for default options. */
+PrintUsage(ArgvInfo *argTable, int flags)
 {
-   register ArgvInfo *infoPtr;
-   int width, i, j, numSpaces;
-#define NUM_SPACES 20
-   static char spaces[] = "                    ";
-/*   char tmp[30]; */
-   int nargs;
+   ArgvInfo *infoPtr;
+   int width, i, numSpaces;
+   intptr_t j, nargs;
 
 /* Macro to optionally print errors */
 #define FPRINTF if (!(flags&ARGV_NO_PRINT)) (void) fprintf
@@ -367,7 +415,7 @@ PrintUsage(argTable, flags)
          if (infoPtr->key == NULL) {
             continue;
          }
-         length = strlen(infoPtr->key);
+         length = (int) strlen(infoPtr->key);
          if (length > width) {
             width = length;
          }
@@ -386,20 +434,14 @@ PrintUsage(argTable, flags)
             continue;
          }
          FPRINTF(stderr, "\n %s:", infoPtr->key);
+         /* Write out padding after the key, followed by the help text. 
+          */
          numSpaces = width + 1 - strlen(infoPtr->key);
-         while (numSpaces > 0) {
-            if (numSpaces >= NUM_SPACES) {
-               FPRINTF(stderr, "%s",spaces);
-            } else {
-               FPRINTF(stderr, "%s",spaces+NUM_SPACES-numSpaces);
-            }
-            numSpaces -= NUM_SPACES;
-         }
-         FPRINTF(stderr, "%s",infoPtr->help);
+         FPRINTF(stderr, "%*s %s", numSpaces, "", infoPtr->help);
          switch (infoPtr->type) {
          case ARGV_INT: {
             FPRINTF(stderr, "\n\t\tDefault value:");
-            nargs = (int) infoPtr->src;
+            nargs = (intptr_t) infoPtr->src;
             if (nargs<1) nargs=1;
             for (j=0; j<nargs; j++) {
                FPRINTF(stderr, " %d", *(((int *) infoPtr->dst)+j));
@@ -408,7 +450,7 @@ PrintUsage(argTable, flags)
          }
          case ARGV_FLOAT: {
             FPRINTF(stderr, "\n\t\tDefault value:");
-            nargs = (int) infoPtr->src;
+            nargs = (intptr_t) infoPtr->src;
             if (nargs<1) nargs=1;
             for (j=0; j<nargs; j++) {
                FPRINTF(stderr, " %g", *(((double *) infoPtr->dst)+j));
@@ -418,7 +460,7 @@ PrintUsage(argTable, flags)
          case ARGV_STRING: {
             char *string;
 
-            nargs = (int) infoPtr->src;
+            nargs = (intptr_t) infoPtr->src;
             if (nargs<1) nargs=1;
             string = *((char **) infoPtr->dst);
             if ((nargs==1) && (string == NULL)) break;
@@ -428,7 +470,7 @@ PrintUsage(argTable, flags)
                   FPRINTF(stderr, " \"%s\"", string);
                }
                else {
-                  FPRINTF(stderr, " \"%s\"", string);
+                  FPRINTF(stderr, " <null>"); /* Don't print null strings. */
                }
             }
 
@@ -451,7 +493,8 @@ PrintUsage(argTable, flags)
 
 static void PrintVersion(ArgvInfo *argTable)
 {
-    char *versionStr = VERSION;
+    // const char *versionStr = MINC_VERSION;
+    const char *versionStr = PACKAGE_VERSION;
 
     for ( ; argTable->type != ARGV_END; argTable++) {
         if (argTable->type == ARGV_VERINFO) {
@@ -463,9 +506,14 @@ static void PrintVersion(ArgvInfo *argTable)
         }
     }
     printf("program: %s\n", versionStr);
-    printf("libminc: %s\n", miget_version());
-    printf("netcdf : %s\n", nc_inq_libvers());
-#if MINC2
+#ifdef HAVE_MINC1
+    {
+      printf("libminc: %s\n", miget_version());
+      printf("netcdf : %s\n", nc_inq_libvers());
+    }
+#endif
+    
+#ifdef HAVE_MINC2
     {
         unsigned int major, minor, release;
         H5get_libversion(&major, &minor, &release);

@@ -2,8 +2,8 @@
 #include "config.h"
 #endif
 
-#include <minc2.h>
-#include <ParseArgv.h>
+#include "minc.h"
+#include "ParseArgv.h"
 
 #include "nifti1_io.h"
 

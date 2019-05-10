@@ -32,6 +32,7 @@ MI2varname(int fd, int varid, char *varnm)
 MNCAPI int
 MI2varid(int fd, const char *varnm)
 {
+
     if (MI2_ISH5OBJ(fd)) {
         return (hdf_varid(fd, varnm));
     }
@@ -50,11 +51,11 @@ MI2attinq(int fd, int varid, const char *attnm, nc_type *type_ptr,
     }
     else {
         int status;
-        int oldncopts = ncopts;
-        ncopts = 0;
+        int oldncopts =get_ncopts();
+        set_ncopts(0);
         status = ncattinq(fd, varid, attnm, type_ptr, length_ptr);
 
-        ncopts = oldncopts;
+        set_ncopts(oldncopts);
         if (status != 1 && oldncopts != 0) {
             fprintf(stderr,
                     _("ncattinq: ncid %d: varid: %d: Attribute '%s' not found"),
@@ -155,17 +156,17 @@ MI2attget(int fd, int varid, const char *attnm, void *value)
 /* */
 MNCAPI int
 MI2attput(int fd, int varid, const char *attnm, nc_type val_typ, 
-          int val_len, void *val_ptr)
+          int val_len, const void *val_ptr)
 {
     if (MI2_ISH5OBJ(fd)) {
         return (hdf_attput(fd, varid, attnm, val_typ, val_len, val_ptr));
     }
     else {
-        int old_ncopts = ncopts;
+        int old_ncopts =get_ncopts();
         int result;
-        ncopts = 0;
+        set_ncopts(0);
         result = ncattput(fd, varid, attnm, val_typ, val_len, val_ptr);
-        ncopts = old_ncopts;
+        set_ncopts(old_ncopts);
         return (result);
     }
 }

@@ -39,9 +39,14 @@ include_HEADERS = \
 	libsrc/nd_loop.h \
 	libsrc/time_stamp.h \
 	libsrc/minc_compat.h \
+	libsrc/minc_simple.h \
 	volume_io/Include/volume_io.h \
+	libsrc2/minc2_api.h \
+	libsrc2/minc2_defs.h \
+	libsrc2/minc2_error.h \
 	libsrc2/minc2.h \
-	libsrc/minc_simple.h
+	libsrc2/minc2_structs.h \
+	libsrc2/minc_compat2.h
 
 include_volume_iodir = $(includedir)/volume_io
 
@@ -67,16 +72,19 @@ include_volume_io_HEADERS = \
 # not part of the installation.
 #
 noinst_HEADERS = \
+	libsrc/hdf_convenience.h \
 	libsrc/minc_basic.h \
 	libsrc/minc_config.h \
 	libsrc/minc_error.h \
+	libsrc/minc_format_convert.h \
 	libsrc/minc_private.h \
 	libsrc/minc_routines.h \
 	libsrc/minc_structures.h \
 	libsrc/minc_useful.h \
 	libsrc/minc_varlists.h \
+	libsrc/read_file_names.h \
+	libsrc/restructure.h \
 	libsrc/type_limits.h \
-	libsrc/hdf_convenience.h \
 	progs/Proglib/convert_origin_to_start.h \
 	progs/Proglib/minc_def.h \
 	progs/minccalc/errx.h \
@@ -433,17 +441,21 @@ libminc2_la_LDFLAGS = -version-info 2:3:1
 libminc2_la_SOURCES = \
 	libsrc/ParseArgv.c \
 	libsrc/dim_conversion.c \
+	libsrc/hdf_convenience.c \
 	libsrc/image_conversion.c \
+	libsrc/minc_compat.c \
 	libsrc/minc_convenience.c \
 	libsrc/minc_error.c \
+	libsrc/minc_config.c \
+	libsrc/minc_format_convert.c \
+	libsrc/minc_simple.c \
 	libsrc/nd_loop.c \
 	libsrc/netcdf_convenience.c \
+	libsrc/read_file_names.c \
+	libsrc/restructure.c \
 	libsrc/time_stamp.c \
 	libsrc/value_conversion.c \
-	libsrc/voxel_loop.c \
-	libsrc/hdf_convenience.c \
-	libsrc/minc_compat.c \
-	libsrc/minc_simple.c
+	libsrc/voxel_loop.c
 
 if MINC2
 libminc2_la_SOURCES += \
@@ -455,6 +467,7 @@ libminc2_la_SOURCES += \
 	libsrc2/hyper.c \
 	libsrc2/label.c \
 	libsrc2/m2util.c \
+	libsrc2/minc2_error.c \
 	libsrc2/record.c \
 	libsrc2/slice.c \
 	libsrc2/valid.c \
@@ -478,7 +491,6 @@ EXTRA_DIST += \
 endif
 
 libvolume_io2_la_LDFLAGS = -version-info 2:2:1
-libvolume_io2_la_LIBADD = libminc2.la
 libvolume_io2_la_SOURCES = \
 	volume_io/Geometry/colour.c \
 	volume_io/Geometry/colour_def.c \

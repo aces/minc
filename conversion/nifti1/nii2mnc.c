@@ -448,6 +448,12 @@ main(int argc, char **argv)
       /* No official transform was found (possibly this is an Analyze 
        * file).  Just use some reasonable defaults.
        */
+      mnc_ordered_dim_names[DIM_X] = MIxspace;
+      mnc_ordered_dim_names[DIM_Y] = MIyspace;
+      mnc_ordered_dim_names[DIM_Z] = MIzspace;
+      mnc_spatial_axes[DIM_X] = DIM_X;  // assume x,y,z order if nothing found
+      mnc_spatial_axes[DIM_Y] = DIM_Y;
+      mnc_spatial_axes[DIM_Z] = DIM_Z;
       mnc_steps[mnc_spatial_axes[DIM_X]] = nii_ptr->dx;
       mnc_steps[mnc_spatial_axes[DIM_Y]] = nii_ptr->dy;
       mnc_steps[mnc_spatial_axes[DIM_Z]] = nii_ptr->dz;

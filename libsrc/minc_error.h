@@ -7,7 +7,7 @@
 @MODIFIED   : 
  *
  * $Log: minc_error.h,v $
- * Revision 6.4  2008/04/11 05:15:00  rotor
+ * Revision 6.4  2008-04-11 05:15:00  rotor
  *  * rewrote error code  (Claude) to remove global defs that were
  *     causing build problems with DYLIB on OSX
  *
@@ -32,9 +32,8 @@
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
 ---------------------------------------------------------------------------- */
-
-#ifndef _MINC_ERROR_H_
-#define _MINC_ERROR_H_ 1
+#ifndef MINC_ERROR_H
+#define MINC_ERROR_H
 
 /* message levels */
 #define MI_MSG_FATAL 0
@@ -97,9 +96,11 @@ typedef enum mimsgcode {
     MI_MSG_BADPROP,
     MI_MSG_ICVNOTATTACHED,
     MI_MSG_ICVCOORDS,
-    MI_MSG_BADOP
+    MI_MSG_BADOP,
+    MI_MSG_NCOPTS_STACK_OVER,
+    MI_MSG_NCOPTS_STACK_UNDER
 } mimsgcode_t;
 
 MNCAPI int milog_message(mimsgcode_t code, ...);
 
-#endif /* _MINC_ERROR_H_ not defined */
+#endif /* MINC_ERROR_H not defined */

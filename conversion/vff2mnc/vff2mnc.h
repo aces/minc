@@ -34,6 +34,7 @@
 #include <float.h>
 #endif
 
+#include <minc.h>
 #include <minc2.h>
 
 #ifndef TRUE
